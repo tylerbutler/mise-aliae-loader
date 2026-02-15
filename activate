@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+
+def main():
+    cwd = os.getcwd()
+    config_path = os.path.join(cwd, ".aliae.toml")
+
+    if os.path.isfile(config_path):
+        try:
+            subprocess.run(
+                ["aliae", "load", config_path],
+                check=True,
+            )
+        except FileNotFoundError:
+            print("aliae not found in PATH", file=sys.stderr)
+        except subprocess.CalledProcessError as e:
+            print(f"aliae load failed: {e}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
